@@ -1,0 +1,138 @@
+---
+config:
+    title: Mermaid
+    layout: elk
+    elk:
+        mergeEdges: true
+        nodePlacementStrategy: NETWORK_SIMPLEX
+---
+
+flowchart TD
+
+    Front(Angular
+    ---
+    angular_materials)
+
+    Auth(Autentificare)
+
+    Cereri(Cereri Cazare)
+
+    Documente(Documente cazare)
+
+    %% aici avem formula
+    Ierarhie(Ierarhie)
+
+    Rezervare(Rezervare)
+
+    Chat(Chat)
+
+    Notificari(Notificari)
+
+    Secretariat(Serviciu Secretariat)
+
+    Camine(Camine)
+
+    Front --> Auth
+    Front --> Cereri
+    Front --> Documente
+    Front --> Ierarhie
+    Front --> Rezervare
+    Front --> Chat
+
+
+    U_T["fa:fa-table Utilizatori
+    ----------------
+    - id: int
+    - email: str
+    - rol: str"]
+
+    Auth --> U_T
+
+    C_T["fa:fa-table Cereri
+    ----------------
+    - id: int
+    - id_student: int
+    - tip_caz: []  %% lista cu cazurile speciale (boli, handicap, parinti, casatoriti, prioritati)
+    "]
+
+    Cereri --> C_T
+    %% Cereri --> Notificari
+
+    D_T["fa:fa-table Documente
+    ----------------
+    - id: int
+    - id_student: int
+    - nume: str
+    - path: str
+    - tip_caz: []  %% lista de cazuri speciale
+    "]
+
+    Documente --> D_T
+    %% Documente --> Notificari
+
+    I_T["fa:fa-table Ierarhie
+    ----------------
+    - id_student: int
+    - nume: str
+    - prenume: str
+    - punctaj: float"]
+
+    F_T["fa:fa-table Formule
+    ----------------
+    - formula_clasament: {}
+    - formula_repartizare: {}"]
+
+    Rep_T["fa:fa-table Repartizari
+    ----------------
+    - id_student: int
+    - camera: str
+    - camin: str
+    - colegi: []"]
+
+    Ierarhie --> I_T
+    Ierarhie --> F_T
+    Ierarhie --> Rep_T
+    %% Ierarhie --> Notificari
+
+    Rez_T["fa:fa-table Rezervari
+    ----------------
+    - id_student: int
+    - camere: {'1': [19A, T19], '2': [123, T2]}
+    - colegi: [] nume_colegi"]
+
+    Rezervare --> Rez_T
+
+    S_T["fa:fa-table Studenti
+    ----------------
+    - id: int
+    - nume: str
+    - prenume: str
+    - mail: str
+    - cnp: int
+    - nr_tel: str
+    - medie: float
+    - sex: str
+    - grupa: str
+    - an: int
+    - specializare: str"]
+
+    Secretariat --> S_T
+
+    Ch_T["fa:fa-table Chaturi
+    ----------------
+    - interlocutori: [id_student1, id_student2]
+    - log: file(nume, mesaj, timestamp)"]
+
+    Chat --> Ch_T
+
+    Cam_T["fa:fa-table Camine
+    ----------------
+    - nume: str
+    - locatie: str
+    - etaje: int
+    - nr_camere: int
+    - locuri_camera: int
+    - nr_camere_etaj: int
+    - descriere: str"]
+
+    Camine --> Cam_T
