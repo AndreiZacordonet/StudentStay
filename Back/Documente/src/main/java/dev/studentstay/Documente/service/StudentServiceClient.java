@@ -41,4 +41,29 @@ public class StudentServiceClient {
             throw new RuntimeException("Error connecting to Student service", e);
         }
     }
+
+    public Long getStudentIdByCnp(String cnp, String authToken, String userRole) {
+        String url = studentServiceUrl + "/api/students/search/get-id-by-cnp/" + cnp;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + authToken);
+        headers.set("User-Role", userRole);
+
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<Long> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    requestEntity,
+                    Long.class
+            );
+            return response.getBody();
+        } catch (HttpClientErrorException.NotFound e) {
+            return null; // Student not found
+        } catch (Exception e) {
+            throw new RuntimeException("Error connecting to Student service", e);
+        }
+    }
+
 }
