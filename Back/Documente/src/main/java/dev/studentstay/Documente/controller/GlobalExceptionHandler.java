@@ -1,5 +1,6 @@
 package dev.studentstay.Documente.controller;
 
+import dev.studentstay.Documente.exceptions.DocumentNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<?> handleHttpClientErrorException(HttpClientErrorException ex, HttpServletRequest request) {
         return bodyBuild(HttpStatus.valueOf(ex.getStatusCode().value()), ex.getStatusText(), ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(DocumentNotFoundException.class)
+    public ResponseEntity<?> handleDocumentNotFoundException(DocumentNotFoundException ex, HttpServletRequest request) {
+        return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
     }
 }

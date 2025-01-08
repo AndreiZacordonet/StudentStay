@@ -1,5 +1,6 @@
 package dev.studentstay.Documente.service;
 
+import dev.studentstay.Documente.exceptions.DocumentNotFoundException;
 import dev.studentstay.Documente.model.Acte;
 import dev.studentstay.Documente.model.Documente;
 import dev.studentstay.Documente.repository.CereriRepository;
@@ -43,4 +44,10 @@ public class DocumenteService {
         return ((root, query, criteriaBuilder) ->
                 act == null ? null : criteriaBuilder.equal(root.get("acte"), act));
     }
+
+    public Documente getById(Long id) {
+        return documenteRepository.findById(id).orElseThrow(() -> new DocumentNotFoundException("Documentul cu id '" + id + "' nu a fost gasit."));
+    }
+
+//    public Documente createNew()
 }
