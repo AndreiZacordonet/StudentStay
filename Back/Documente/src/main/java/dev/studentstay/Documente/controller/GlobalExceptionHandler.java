@@ -1,5 +1,6 @@
 package dev.studentstay.Documente.controller;
 
+import dev.studentstay.Documente.exceptions.DocumentFaraCerereException;
 import dev.studentstay.Documente.exceptions.DocumentNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DocumentNotFoundException.class)
     public ResponseEntity<?> handleDocumentNotFoundException(DocumentNotFoundException ex, HttpServletRequest request) {
         return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(DocumentFaraCerereException.class)
+    public ResponseEntity<?> handleDocumentFaraCerereException(DocumentFaraCerereException ex, HttpServletRequest request) {
+        return bodyBuild(HttpStatus.NOT_FOUND, "Cerere inexistenta", ex.getMessage(), request);
     }
 }
