@@ -58,4 +58,12 @@ public class DocumenteController {
         return ResponseEntity.ok("Text extraction completed successfully.");
     }
 
+    @PostMapping("/process-text")
+    public ResponseEntity<?> processAllDocuments(@RequestParam(required = false) Long id,
+                                         @RequestHeader(value = "Authorization") String authorization,
+                                         @RequestHeader(value = "User-Role") String userRole) {
+        documenteService.processAllDocuments(id);
+        return ResponseEntity.ok("Text processing completed successfully.");
+    }
+
 }

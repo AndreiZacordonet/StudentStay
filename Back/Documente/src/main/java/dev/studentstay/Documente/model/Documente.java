@@ -38,5 +38,5 @@ public class Documente {
     @Type(JsonType.class)
     @Column(name = "acte", columnDefinition = "json")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<Map<Acte, Integer>> acte;
+    private List<Map<Acte, String>> acte;
 }
