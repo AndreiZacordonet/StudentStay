@@ -1,10 +1,18 @@
 package dev.studentstay.Documente.service;
 
+import dev.studentstay.Documente.dto.StudentDto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceClient {
@@ -65,5 +73,53 @@ public class StudentServiceClient {
             throw new RuntimeException("Error connecting to Student service", e);
         }
     }
+
+    public List<StudentDto> getAllStudents(String authToken, String userRole) {
+        String url = studentServiceUrl + "/api/students?page={page}&size={size}";
+        int page = 0;
+        int size = 7; // Default size used by the Student service
+        List<StudentDto> allStudents = new ArrayList<>();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + authToken);
+        headers.set("User-Role", userRole);
+
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        try {
+            while (true) {
+                Map<String, Integer> params = new HashMap<>();
+                params.put("page", page);
+                params.put("size", size);
+
+                ResponseEntity<PagedModel<StudentDto>> response = restTemplate.exchange(
+                        url,
+                        HttpMethod.GET,
+                        requestEntity,
+                        new ParameterizedTypeReference<PagedModel<StudentDto>>() {},
+                        params
+                );
+
+                if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                    PagedModel<StudentDto> pagedModel = response.getBody();
+                    allStudents.addAll(pagedModel.getContent());
+
+                    // Check if there are more pages
+                    if (!pagedModel.hasLink("next")) {
+                        break; // No more pages
+                    }
+                } else {
+                    break; // Stop fetching if response is not OK
+                }
+
+                page++; // Increment page number for the next request
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error connecting to Student service", e);
+        }
+
+        return allStudents;
+    }
+
 
 }
