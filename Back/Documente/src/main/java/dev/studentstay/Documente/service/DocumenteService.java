@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -76,13 +77,27 @@ public class DocumenteService {
         Path destinationPath = Paths.get(filePath);
 
         Files.createDirectories(destinationPath.getParent());
-
         Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
 
-        Documente doc = new Documente(null, newDoc.getIdStudent(), filePath, null, null);
-
-        documenteRepository.save(doc);
-
-        return doc;
+        Documente existingDocument = documenteRepository.searchDocumenteByIdStudent(newDoc.getIdStudent());//TODO: get one document by student id
+        if (existingDocument != null) {
+            // Delete the old file if it exists
+            File oldFile = new File(existingDocument.getCaleDocument());
+            if (oldFile.exists()) {
+                oldFile.delete();
+            }
+            // Update the existing document's path
+            existingDocument.setCaleDocument(filePath);
+            documenteRepository.save(existingDocument);
+            return existingDocument;
+        } else {
+            Documente doc = new Documente(null, newDoc.getIdStudent(), filePath, null, null);
+            documenteRepository.save(doc);
+            return doc;
+        }
     }
+
+//    public boolean extractText(Long id) {
+//
+//    }
 }
