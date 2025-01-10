@@ -22,13 +22,10 @@ public class Clasament {
     @Column(name = "pozitie", nullable = false) // FIXME: nullable true?
     private Integer pozitie;
 
-    @Column(name = "nume", nullable = false)
-    private String nume;
-
-    @Column(name = "prenume", nullable = false)
-    private String prenume;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
     @Column(name = "punctaj", nullable = false) // FIXME: nullable true?
-    private Integer punctaj;
+    private Double punctaj;
 
 }

@@ -5,7 +5,9 @@ import dev.studentstay.Documente.model.Clasament;
 import dev.studentstay.Documente.repository.ClasamentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,14 +33,25 @@ public class ClasamentService {
                 .map(student -> {
                     Clasament clasament = new Clasament();
                     clasament.setPozitie(0); // Default value
-                    clasament.setPunctaj(0); // Default value
-                    clasament.setNume(student.getNume());
-                    clasament.setPrenume(student.getPrenume());
+                    clasament.setPunctaj(student.getMedie() + 10 / student.getAn()); // TODO: adjust the formula
+                    clasament.setEmail(student.getEmail());
                     return clasament;
                 })
                 .collect(Collectors.toList());
 
+        Map<String, String> emailToNumeMap = allStudents.stream()
+                .collect(Collectors.toMap(StudentDto::getEmail, StudentDto::getNume));
+
+        clasamentList.sort(Comparator
+                .comparing(Clasament::getPunctaj, Comparator.reverseOrder())
+                .thenComparing(clasament -> emailToNumeMap.get(clasament.getEmail())));
+
+        for (int i = 0; i < clasamentList.size(); i++) {
+            clasamentList.get(i).setPozitie(i + 1);
+        }
+
         // Save all Clasament entries to the database
         clasamentRepository.saveAll(clasamentList);
     }
+
 }
