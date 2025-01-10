@@ -50,4 +50,12 @@ public class DocumenteController {
         }
     }
 
+    @PostMapping("/extract-text")
+    public ResponseEntity<?> extractText(@RequestParam(required = false) Long id,
+                                         @RequestHeader(value = "Authorization") String authorization,
+                                         @RequestHeader(value = "User-Role") String userRole) {
+        documenteService.extractAllText(id);
+        return ResponseEntity.ok("Text extraction completed successfully.");
+    }
+
 }

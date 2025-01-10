@@ -2,6 +2,7 @@ package dev.studentstay.Documente.controller;
 
 import dev.studentstay.Documente.exceptions.DocumentFaraCerereException;
 import dev.studentstay.Documente.exceptions.DocumentNotFoundException;
+import dev.studentstay.Documente.exceptions.TextExtractionException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DocumentFaraCerereException.class)
     public ResponseEntity<?> handleDocumentFaraCerereException(DocumentFaraCerereException ex, HttpServletRequest request) {
         return bodyBuild(HttpStatus.NOT_FOUND, "Cerere inexistenta", ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(TextExtractionException.class)
+    public ResponseEntity<?> handleTextExtractionException(TextExtractionException ex, HttpServletRequest request) {
+        return bodyBuild(HttpStatus.REQUEST_TIMEOUT, "Ocr error", ex.getMessage(), request);
     }
 }
