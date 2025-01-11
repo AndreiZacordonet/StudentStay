@@ -39,10 +39,10 @@ public class RepartizareService {
             String email = student.getEmail();
             Rezervare rezervare = rezervareMap.get(email);
 
+            boolean assigned = false;
             if (rezervare != null) {
                 List<Map<CoduriCamine, List<String>>> preferences = rezervare.getCamere();
 
-                boolean assigned = false;
                 for (Map<CoduriCamine, List<String>> preference : preferences) {
                     for (Map.Entry<CoduriCamine, List<String>> entry : preference.entrySet()) {
                         CoduriCamine camin = entry.getKey();
@@ -62,8 +62,27 @@ public class RepartizareService {
                     if (assigned) break;
                 }
             }
-        }
 
+            if (!assigned) {
+                for (Map.Entry<CoduriCamine, List<String>> entry : availableRooms.entrySet()) {
+                    CoduriCamine camin = entry.getKey();
+                    List<String> rooms = entry.getValue();
+
+                    if (!rooms.isEmpty()) {
+                        String room = rooms.get(0); // Take the first available room
+                        repartizari.add(new Repartizare(null, email, camin, room));
+                        rooms.remove(room);
+                        assigned = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!assigned) {
+                throw new IllegalStateException("No available rooms for student: " + email);
+            }
+        }
+        repartizareRepository.deleteAll();
         repartizareRepository.saveAll(repartizari);
     }
 }
