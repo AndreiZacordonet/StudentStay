@@ -1,9 +1,6 @@
 package dev.studentstay.Documente.controller;
 
-import dev.studentstay.Documente.exceptions.ClasamentEntryNotFoundExeception;
-import dev.studentstay.Documente.exceptions.DocumentFaraCerereException;
-import dev.studentstay.Documente.exceptions.DocumentNotFoundException;
-import dev.studentstay.Documente.exceptions.TextExtractionException;
+import dev.studentstay.Documente.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +49,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ClasamentEntryNotFoundExeception.class)
     public ResponseEntity<?> handleClasamentEntryNotFoundExeception(ClasamentEntryNotFoundExeception ex, HttpServletRequest request) {
+        return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<?> handleEmailNotFoundException(EmailNotFoundException ex, HttpServletRequest request) {
         return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
     }
 }

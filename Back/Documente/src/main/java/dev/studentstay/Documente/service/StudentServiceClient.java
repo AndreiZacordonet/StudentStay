@@ -121,5 +121,26 @@ public class StudentServiceClient {
         return allStudents;
     }
 
+    public StudentDto getStudentByEmail(String email) {
+        String url = studentServiceUrl + "/api/students/check-email/" + email;
+
+        HttpHeaders headers = new HttpHeaders();
+
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<StudentDto> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    requestEntity,
+                    StudentDto.class
+            );
+            return response.getBody(); // Return the StudentDto object
+        } catch (HttpClientErrorException.NotFound e) {
+            return null; // Student not found
+        } catch (Exception e) {
+            throw new RuntimeException("Error connecting to Student service", e);
+        }
+    }
 
 }
