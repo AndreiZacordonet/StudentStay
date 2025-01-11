@@ -1,5 +1,8 @@
 package dev.studentstay.Documente.config;
 
+import dev.studentstay.Documente.authentication.Roles;
+import dev.studentstay.Documente.authentication.UserModel;
+import dev.studentstay.Documente.authentication.UserRepository;
 import dev.studentstay.Documente.model.CereriEntity;
 import dev.studentstay.Documente.model.Documente;
 import dev.studentstay.Documente.repository.CereriRepository;
@@ -17,7 +20,8 @@ public class DatabaseLoader {
 //    @Bean
     CommandLineRunner initDatabase(
         CereriRepository cereriRepository,
-        DocumenteRepository documenteRepository
+        DocumenteRepository documenteRepository,
+        UserRepository userRepository
     ) {
         return args -> {
             // populate the database with data
@@ -31,13 +35,21 @@ public class DatabaseLoader {
 //            cereriRepository.save(cerere3);
 //            cereriRepository.save(cerere4);
 
-            Documente doc1 = new Documente(null, (long) 1, "files/undeva/numedocument.pdf", null, null);
-            Documente doc2 = new Documente(null, (long) 1, "files/undeva/numedocument2.pdf", null, null);
-            Documente doc3 = new Documente(null, (long) 2, "files/undeva/numedocument3.pdf", null, null);
+//            Documente doc1 = new Documente(null, (long) 1, "files/undeva/numedocument.pdf", null, null);
+//            Documente doc2 = new Documente(null, (long) 1, "files/undeva/numedocument2.pdf", null, null);
+//            Documente doc3 = new Documente(null, (long) 2, "files/undeva/numedocument3.pdf", null, null);
+//
+//            documenteRepository.save(doc1);
+//            documenteRepository.save(doc2);
+//            documenteRepository.save(doc3);
 
-            documenteRepository.save(doc1);
-            documenteRepository.save(doc2);
-            documenteRepository.save(doc3);
+            UserModel user1 = new UserModel(null, "andrei.zacordonet@student.tuiasi.ro", Roles.MEMBRU_COMISIE);
+            UserModel user2 = new UserModel(null, "zacordonet.andrei@gmail.com", Roles.STUDENT);
+            UserModel user3 = new UserModel(null, "andrei74c0@gmail.com", Roles.ADMIN);
+
+            userRepository.save(user1);
+            userRepository.save(user2);
+            userRepository.save(user3);
         };
     }
 

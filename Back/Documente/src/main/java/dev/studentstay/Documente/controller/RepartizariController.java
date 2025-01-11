@@ -64,7 +64,7 @@ public class RepartizariController {
         } catch (IllegalArgumentException ex) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            
+
         }
     }
 

@@ -28,6 +28,10 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+
+		<!--	gRPC properties	-->
+		<protobuf.version>3.6.1</protobuf.version>
+		<grpc.version>1.15.1</grpc.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -51,6 +55,36 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- Security dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>oauth2-oidc-sdk</artifactId>
+			<version>10.3</version>
+		</dependency>
+
+		<!-- Spring Security JWT dependency for JWT token creation and validation -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.12.5</version> <!-- or any suitable version -->
 		</dependency>
 
 		<dependency>
@@ -102,6 +136,37 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.15.2</version>
+		</dependency>
+
+		<!--	gRPC dependencies	-->
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>${protobuf.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-netty-shaded</artifactId>
+			<version>${grpc.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-protobuf</artifactId>
+			<version>${grpc.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-stub</artifactId>
+			<version>${grpc.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 		<dependency>
