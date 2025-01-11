@@ -35,7 +35,7 @@ public class RezervariController {
     public ResponseEntity<Rezervare> getRezervareByEmail(@PathVariable String email) {
 
         Rezervare rezervare = rezervareService.getRezervareByEmail(email);
-        
+
         return ResponseEntity.ok(rezervare);
     }
 }

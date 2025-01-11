@@ -56,4 +56,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleEmailNotFoundException(EmailNotFoundException ex, HttpServletRequest request) {
         return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
     }
+
+    @ExceptionHandler(RoomNotFoundException.class)
+    public ResponseEntity<?> handleRoomNotFoundException(RoomNotFoundException ex, HttpServletRequest request) {
+        return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
+    }
 }

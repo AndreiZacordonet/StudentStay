@@ -2,11 +2,16 @@ package dev.studentstay.Documente.service;
 
 import dev.studentstay.Documente.dto.RezervareDto;
 import dev.studentstay.Documente.exceptions.EmailNotFoundException;
+import dev.studentstay.Documente.exceptions.RoomNotFoundException;
+import dev.studentstay.Documente.model.CoduriCamine;
 import dev.studentstay.Documente.model.Rezervare;
+import dev.studentstay.Documente.model.RoomNumbers;
 import dev.studentstay.Documente.repository.RezervareRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -17,7 +22,6 @@ public class RezervareService {
     private final StudentServiceClient studentServiceClient;
 
     public Rezervare create(RezervareDto newRezervare) {
-        // TODO: verify room number?
 
         Optional<Rezervare> existingRezervareOpt = rezervareRepository.findDistinctByEmail(newRezervare.getEmail());
 
@@ -35,7 +39,26 @@ public class RezervareService {
             }
         }
 
-        // TODO: Add logic to verify room numbers if necessary
+        if (newRezervare.getCamere() != null) {
+            for (Map<CoduriCamine, List<String>> caminRooms : newRezervare.getCamere()) {
+                for (Map.Entry<CoduriCamine, List<String>> entry : caminRooms.entrySet()) {
+                    CoduriCamine camin = entry.getKey();
+                    List<String> requestedRooms = entry.getValue();
+
+                    // Verify if requested rooms exist in the predefined list of rooms for the camin
+                    List<String> availableRooms = RoomNumbers.CAMIN_ROOMS.get(camin);
+                    if (availableRooms == null) {
+                        throw new RoomNotFoundException("Invalid camin code: " + camin);
+                    }
+
+                    for (String room : requestedRooms) {
+                        if (!availableRooms.contains(room)) {
+                            throw new RoomNotFoundException("Invalid room number " + room + " for camin " + camin);
+                        }
+                    }
+                }
+            }
+        }
 
         Rezervare rezervare;
 
