@@ -6,6 +6,8 @@ import dev.studentstay.Documente.model.Rezervare;
 import dev.studentstay.Documente.repository.RezervareRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RezervareService {
 
@@ -21,6 +23,9 @@ public class RezervareService {
         // TODO: verify each student email if exists
         // TODO: verify room number?
 
+        Optional<Rezervare> existingRezervareOpt = rezervareRepository.findDistinctByEmail(newRezervare.getEmail());
+
+        // Verify the primary student email
         if (studentServiceClient.getStudentByEmail(newRezervare.getEmail()) == null) {
             throw new EmailNotFoundException("The primary student email does not exist: " + newRezervare.getEmail());
         }
@@ -36,11 +41,20 @@ public class RezervareService {
 
         // TODO: Add logic to verify room numbers if necessary
 
-        // Create a new Rezervare entity
-        Rezervare rezervare = new Rezervare();
-        rezervare.setEmail(newRezervare.getEmail());
-        rezervare.setCamere(newRezervare.getCamere());
-        rezervare.setColegiCamera(newRezervare.getColegiCamera());
+        Rezervare rezervare;
+
+        if (existingRezervareOpt.isPresent()) {
+            // Update the existing reservation
+            rezervare = existingRezervareOpt.get();
+            rezervare.setCamere(newRezervare.getCamere());
+            rezervare.setColegiCamera(newRezervare.getColegiCamera());
+        } else {
+            // Create a new reservation
+            rezervare = new Rezervare();
+            rezervare.setEmail(newRezervare.getEmail());
+            rezervare.setCamere(newRezervare.getCamere());
+            rezervare.setColegiCamera(newRezervare.getColegiCamera());
+        }
 
         // Save and return the Rezervare entity
         return rezervareRepository.save(rezervare);
