@@ -13,29 +13,24 @@ import java.util.Map;
 public class JwtValidationFilter implements Filter {
 
     private final Map<String, Map<String, String>> roleAccessMap = new HashMap<>() {{
-        put("/profesori", new HashMap<>() {{
-            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get all professors
-            put("POST", "ADMIN");                       // create a new professor
+        // cereri
+        put("/student-stay/cereri", new HashMap<>() {{
+            put("GET", "ADMIN; PROFESSOR");    // get all cereri
+            put("POST", "STUDENT; PROFESSOR");  // create a new cerere
         }});
-        put("/profesori/{id}", new HashMap<>() {{
-            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get professor by id
-            put("DELETE", "ADMIN");                     // archive a professor
-            put("PATCH", "ADMIN");                      // update a professor
+        put("/student-stay/cereri/{id}", new HashMap<>() {{
+            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get cerere by id
+            put("DELETE", "ADMIN");                     // delete a cerere
+            put("PUT", "ADMIN; PROFESSOR");                      // update a cerere
         }});
-        put("/profesori/{id}/activate", new HashMap<>() {{
-            put("POST", "ADMIN");                       // un-archive a professor
+        put("/student-stay/cereri/user/{id}", new HashMap<>() {{
+            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get cerere by user id
         }});
-        put("/profesori/archive", new HashMap<>() {{
-            put("GET", "ADMIN");                        // get all archived professors
-        }});
-        put("/profesori/{id}/my-disciplines", new HashMap<>() {{
-            put("GET", "PROFESSOR");                    // get professor's courses
-        }});
-        put("/profesori/{id}/all-disciplines", new HashMap<>() {{
-            put("GET", "PROFESSOR");                    // get all courses from professor's perspective
-        }});
-        put("/profesori/{id}/studenti", new HashMap<>() {{
-            put("GET", "PROFESSOR");                    // get professor's students
+
+
+        // clasament
+        put("/clasament", new HashMap<>() {{
+            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get all clasament
         }});
 
 
@@ -126,7 +121,7 @@ public class JwtValidationFilter implements Filter {
 
     public boolean isRoleAllowed(String uri, String method, String role) {
 
-        String baseUri = uri.split("\\?")[0].split("academia")[1];
+        String baseUri = uri.split("\\?")[0].split("api")[1];   // split dupa 'api'
 
         for (Map.Entry<String, Map<String, String>> entry : roleAccessMap.entrySet()) {
             String key = entry.getKey();

@@ -11,7 +11,7 @@ public class FilterConfig {
     public FilterRegistrationBean<JwtValidationFilter> jwtValidationFilter(GrpcClientService grpcClientService) {
         FilterRegistrationBean<JwtValidationFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new JwtValidationFilter(grpcClientService));
-        registrationBean.addUrlPatterns("/api/academia/*");
+        registrationBean.addUrlPatterns("/api/*");
         return registrationBean;
     }
 }

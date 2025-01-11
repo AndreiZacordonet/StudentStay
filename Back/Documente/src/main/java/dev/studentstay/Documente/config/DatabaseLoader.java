@@ -1,8 +1,5 @@
 package dev.studentstay.Documente.config;
 
-import dev.studentstay.Documente.authentication.Roles;
-import dev.studentstay.Documente.authentication.UserModel;
-import dev.studentstay.Documente.authentication.UserRepository;
 import dev.studentstay.Documente.model.CereriEntity;
 import dev.studentstay.Documente.model.Documente;
 import dev.studentstay.Documente.repository.CereriRepository;
@@ -20,20 +17,19 @@ public class DatabaseLoader {
 //    @Bean
     CommandLineRunner initDatabase(
         CereriRepository cereriRepository,
-        DocumenteRepository documenteRepository,
-        UserRepository userRepository
+        DocumenteRepository documenteRepository
     ) {
         return args -> {
             // populate the database with data
-//            CereriEntity cerere1 = new CereriEntity(null, (long) 1, CereriEntity.TipCerere.CASATORIT);
-//            CereriEntity cerere2 = new CereriEntity(null, (long) 2, CereriEntity.TipCerere.CAZARE);
-//            CereriEntity cerere3 = new CereriEntity(null, (long) 3, CereriEntity.TipCerere.CAZARE);
-//            CereriEntity cerere4 = new CereriEntity(null, (long) 4, CereriEntity.TipCerere.HANDICAP);
-//
-//            cereriRepository.save(cerere1);
-//            cereriRepository.save(cerere2);
-//            cereriRepository.save(cerere3);
-//            cereriRepository.save(cerere4);
+            CereriEntity cerere1 = new CereriEntity(null, (long) 1, CereriEntity.TipCerere.CASATORIT);
+            CereriEntity cerere2 = new CereriEntity(null, (long) 2, CereriEntity.TipCerere.CAZARE);
+            CereriEntity cerere3 = new CereriEntity(null, (long) 3, CereriEntity.TipCerere.CAZARE);
+            CereriEntity cerere4 = new CereriEntity(null, (long) 4, CereriEntity.TipCerere.HANDICAP);
+
+            cereriRepository.save(cerere1);
+            cereriRepository.save(cerere2);
+            cereriRepository.save(cerere3);
+            cereriRepository.save(cerere4);
 
 //            Documente doc1 = new Documente(null, (long) 1, "files/undeva/numedocument.pdf", null, null);
 //            Documente doc2 = new Documente(null, (long) 1, "files/undeva/numedocument2.pdf", null, null);
@@ -43,13 +39,13 @@ public class DatabaseLoader {
 //            documenteRepository.save(doc2);
 //            documenteRepository.save(doc3);
 
-            UserModel user1 = new UserModel(null, "andrei.zacordonet@student.tuiasi.ro", Roles.MEMBRU_COMISIE);
-            UserModel user2 = new UserModel(null, "zacordonet.andrei@gmail.com", Roles.STUDENT);
-            UserModel user3 = new UserModel(null, "andrei74c0@gmail.com", Roles.ADMIN);
-
-            userRepository.save(user1);
-            userRepository.save(user2);
-            userRepository.save(user3);
+//            UserModel user1 = new UserModel(null, "andrei.zacordonet@student.tuiasi.ro", Roles.MEMBRU_COMISIE);
+//            UserModel user2 = new UserModel(null, "zacordonet.andrei@gmail.com", Roles.STUDENT);
+//            UserModel user3 = new UserModel(null, "andrei74c0@gmail.com", Roles.ADMIN);
+//
+//            userRepository.save(user1);
+//            userRepository.save(user2);
+//            userRepository.save(user3);
         };
     }
 
