@@ -2,6 +2,7 @@ package dev.studentstay.Documente.controller;
 
 import dev.studentstay.Documente.dto.EditRepartizareRequest;
 import dev.studentstay.Documente.model.CoduriCamine;
+import dev.studentstay.Documente.model.Repartizare;
 import dev.studentstay.Documente.service.RepartizareService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -46,6 +47,24 @@ public class RepartizariController {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 
+        }
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<Repartizare> getRepartizareByEmail(@PathVariable String email) {
+        try {
+            Repartizare repartizare = repartizareService.getByEmail(email);
+
+            return ResponseEntity.ok(repartizare);
+
+        } catch (EntityNotFoundException ex) {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+        } catch (IllegalArgumentException ex) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            
         }
     }
 

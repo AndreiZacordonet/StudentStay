@@ -5,6 +5,7 @@ import dev.studentstay.Documente.model.*;
 import dev.studentstay.Documente.repository.ClasamentRepository;
 import dev.studentstay.Documente.repository.RepartizareRepository;
 import dev.studentstay.Documente.repository.RezervareRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -116,5 +117,18 @@ public class RepartizareService {
         existingRepartizare.setCamera(room);
 
         repartizareRepository.save(existingRepartizare);
+    }
+
+    public Repartizare getByEmail(String email) {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email cannot be null or blank.");
+        }
+
+        Repartizare repartizare = repartizareRepository.findDistinctByEmail(email);
+        if (repartizare == null) {
+            throw new RepartizareNodFoundException("Repartizare not found for email: " + email);
+        }
+
+        return repartizare;
     }
 }
