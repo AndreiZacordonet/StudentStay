@@ -1,5 +1,6 @@
 package dev.studentstay.Documente.controller;
 
+import dev.studentstay.Documente.exceptions.ClasamentEntryNotFoundExeception;
 import dev.studentstay.Documente.exceptions.DocumentFaraCerereException;
 import dev.studentstay.Documente.exceptions.DocumentNotFoundException;
 import dev.studentstay.Documente.exceptions.TextExtractionException;
@@ -47,5 +48,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TextExtractionException.class)
     public ResponseEntity<?> handleTextExtractionException(TextExtractionException ex, HttpServletRequest request) {
         return bodyBuild(HttpStatus.REQUEST_TIMEOUT, "Ocr error", ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(ClasamentEntryNotFoundExeception.class)
+    public ResponseEntity<?> handleClasamentEntryNotFoundExeception(ClasamentEntryNotFoundExeception ex, HttpServletRequest request) {
+        return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
     }
 }
