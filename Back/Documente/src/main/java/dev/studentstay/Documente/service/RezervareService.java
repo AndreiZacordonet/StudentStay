@@ -4,23 +4,19 @@ import dev.studentstay.Documente.dto.RezervareDto;
 import dev.studentstay.Documente.exceptions.EmailNotFoundException;
 import dev.studentstay.Documente.model.Rezervare;
 import dev.studentstay.Documente.repository.RezervareRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class RezervareService {
 
     private final RezervareRepository rezervareRepository;
     private final StudentServiceClient studentServiceClient;
 
-    public RezervareService(RezervareRepository rezervareRepository, StudentServiceClient studentServiceClient) {
-        this.rezervareRepository = rezervareRepository;
-        this.studentServiceClient = studentServiceClient;
-    }
-
     public Rezervare create(RezervareDto newRezervare) {
-        // TODO: verify each student email if exists
         // TODO: verify room number?
 
         Optional<Rezervare> existingRezervareOpt = rezervareRepository.findDistinctByEmail(newRezervare.getEmail());
@@ -58,5 +54,10 @@ public class RezervareService {
 
         // Save and return the Rezervare entity
         return rezervareRepository.save(rezervare);
+    }
+
+    public Rezervare getRezervareByEmail(String email) {
+        return rezervareRepository.findDistinctByEmail(email)
+                .orElseThrow(() -> new EmailNotFoundException("No reservation found for the email: " + email));
     }
 }
