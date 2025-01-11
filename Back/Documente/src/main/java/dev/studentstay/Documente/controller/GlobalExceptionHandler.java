@@ -61,4 +61,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleRoomNotFoundException(RoomNotFoundException ex, HttpServletRequest request) {
         return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
     }
+
+    @ExceptionHandler(RepartizareNodFoundException.class)
+    public ResponseEntity<?> handleRepartizareNodFoundException(RepartizareNodFoundException ex, HttpServletRequest request) {
+        return bodyBuild(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
+    }
 }

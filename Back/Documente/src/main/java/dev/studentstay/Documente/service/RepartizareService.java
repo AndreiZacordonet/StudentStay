@@ -1,5 +1,6 @@
 package dev.studentstay.Documente.service;
 
+import dev.studentstay.Documente.exceptions.RepartizareNodFoundException;
 import dev.studentstay.Documente.model.*;
 import dev.studentstay.Documente.repository.ClasamentRepository;
 import dev.studentstay.Documente.repository.RepartizareRepository;
@@ -84,5 +85,36 @@ public class RepartizareService {
         }
         repartizareRepository.deleteAll();
         repartizareRepository.saveAll(repartizari);
+    }
+
+    public void editByEmail(String email, CoduriCamine camin, String room) {
+
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email cannot be null or blank.");
+        }
+
+        Repartizare existingRepartizare = repartizareRepository.findDistinctByEmail(email);
+        if (existingRepartizare == null) {
+            throw new RepartizareNodFoundException("Repartizare not found for email: " + email);
+        }
+
+        if (!RoomNumbers.CAMIN_ROOMS.containsKey(camin)) {
+            throw new IllegalArgumentException("Invalid camin: " + camin);
+        }
+
+        List<String> roomsForCamin = RoomNumbers.CAMIN_ROOMS.get(camin);
+        if (!roomsForCamin.contains(room)) {
+            throw new IllegalArgumentException("Invalid room: " + room + " for camin: " + camin);
+        }
+
+        boolean isRoomOccupied = repartizareRepository.existsByCaminAndCamera(camin, room);
+        if (isRoomOccupied) {
+            throw new IllegalArgumentException("Room " + room + " in camin " + camin + " is already occupied.");
+        }
+
+        existingRepartizare.setCamin(camin);
+        existingRepartizare.setCamera(room);
+
+        repartizareRepository.save(existingRepartizare);
     }
 }
