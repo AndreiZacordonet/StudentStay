@@ -2,8 +2,11 @@ package dev.studentstay.Documente.service;
 
 import dev.studentstay.Documente.dto.StudentDto;
 import dev.studentstay.Documente.exceptions.ClasamentEntryNotFoundExeception;
+import dev.studentstay.Documente.model.CereriEntity;
 import dev.studentstay.Documente.model.Clasament;
 import dev.studentstay.Documente.repository.ClasamentRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -82,4 +85,19 @@ public class ClasamentService {
         return clasamentRepository.findById(id).orElseThrow(() -> new ClasamentEntryNotFoundExeception("Intrarea cu id '" + id + "' nu a fost gasita in clasament"));
     }
 
+    public List<Clasament> getAll(int page, int itemsPerPage, String email) {
+        if(page != -1 && itemsPerPage != 0 ) {
+            Pageable pageable = PageRequest.of(page, itemsPerPage);
+            if(email == null)
+                return clasamentRepository.findAll(pageable).getContent();
+            else
+                return clasamentRepository.findFirstByEmail(email);
+        }else
+        {
+            if(email == null)
+                return clasamentRepository.findAll();
+            else
+                return clasamentRepository.findFirstByEmail(email);
+        }
+    }
 }
