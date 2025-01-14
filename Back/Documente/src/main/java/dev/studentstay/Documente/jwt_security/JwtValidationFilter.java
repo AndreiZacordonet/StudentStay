@@ -31,44 +31,46 @@ public class JwtValidationFilter implements Filter {
         // clasament
         put("/clasament", new HashMap<>() {{
             put("GET", "ADMIN; PROFESSOR; STUDENT");    // get all clasament
+            put("POST", "PROFESSOR");    // populate clasament
+        }});
+        put("/clasament/{id}", new HashMap<>() {{
+            put("POST", "PROFESSOR");    // modify one clasament entry
         }});
 
 
-        put("/studenti", new HashMap<>() {{
-            put("GET", "ADMIN; PROFESSOR; STUDENT");       // get all students
-            put("POST", "ADMIN");                          // create new student
+        // documente
+        put("/documente", new HashMap<>() {{
+            put("GET", "PROFESSOR");    // get all documente
+            put("POST", "STUDENT; PROFESSOR");   // add document
         }});
-        put("/studenti/{id}", new HashMap<>() {{
-            put("GET", "ADMIN; PROFESSOR; STUDENT");       // get student by id
-            put("DELETE", "ADMIN");                        // archive student
-            put("PATCH", "ADMIN");                         // update student
+        put("/documente/{id}", new HashMap<>() {{
+            put("GET", "STUDENT; PROFESSOR");   // get one document
         }});
-        put("/studenti/{id}/activate", new HashMap<>() {{
-            put("POST", "ADMIN");                          // un-archive student
+        put("/documente/extract-text", new HashMap<>() {{
+            put("POST", "PROFESSOR");       // extract text from document
         }});
-        put("/studenti/archive", new HashMap<>() {{
-            put("GET", "ADMIN");                           // get archived students
-        }});
-        put("/studenti/{id}/disciplines", new HashMap<>() {{
-            put("GET", "STUDENT");                         // get student's courses
+        put("/documente/process-text", new HashMap<>() {{
+            put("POST", "PROFESSOR");       // process text from document
         }});
 
 
-        put("/discipline", new HashMap<>() {{
-            // TODO: add admin and student here?
-            put("GET", "PROFESSOR");                // get all courses
-            put("PUT", "PROFESSOR");                // create new course
+        // repartizari
+        put("/repartizari", new HashMap<>() {{
+            put("PATCH", "PROFESSOR");      // edit repartition by student's email
         }});
-        put("/discipline/{code}", new HashMap<>() {{
-            put("GET", "PROFESSOR; STUDENT");        // get a course
-            put("DELETE", "ADMIN");                  // archive a course
-            put("PATCH", "PROFESSOR");               // update a course
+        put("/repartizari/populate", new HashMap<>() {{
+            put("POST", "PROFESSOR");      // populate repartition
         }});
-        put("/discipline/{code}/activate", new HashMap<>() {{
-            put("POST", "ADMIN");                   // un-archive a course
+        put("/repartizari/{email}", new HashMap<>() {{
+            put("GET", "STUDENT");      // get repartition by student id
         }});
-        put("discipline/archive/", new HashMap<>() {{
-            put("GET", "ADMIN");                    // get all from archive
+
+        // rezervari
+        put("/rezervari", new HashMap<>() {{
+            put("POST", "STUDENT; PROFESSOR");      // create rezervation
+        }});
+        put("/rezervari/{email}", new HashMap<>() {{
+            put("GET", "STUDENT; PROFESSOR");      // get rezervation
         }});
     }};
 
