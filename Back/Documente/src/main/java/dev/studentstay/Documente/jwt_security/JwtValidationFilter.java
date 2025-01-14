@@ -72,6 +72,10 @@ public class JwtValidationFilter implements Filter {
         put("/rezervari/{email}", new HashMap<>() {{
             put("GET", "STUDENT; PROFESSOR");      // get rezervation
         }});
+
+        put("/links", new HashMap<>() {{
+            put("GET", "ADMIN; STUDENT; PROFESSOR");    // allow to get links uri
+        }});
     }};
 
     private final GrpcClientService grpcClientService;
@@ -129,7 +133,8 @@ public class JwtValidationFilter implements Filter {
             String key = entry.getKey();
             Map<String, String> methodMap = entry.getValue();
 
-            String regex = key.replace("{id}", "\\d+").replace("{code}", "[a-zA-Z0-9]+");;
+            String regex = key.replace("{id}", "\\d+").replace("{code}", "[a-zA-Z0-9]+")
+                    .replace("{email}", "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
 
             if (baseUri.matches(regex)) {
                 String allowedRoles = methodMap.get(method);
