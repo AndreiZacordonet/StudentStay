@@ -3,10 +3,12 @@ package dev.studentstay.Documente.controller;
 import dev.studentstay.Documente.jwt_security.GrpcClientService;
 import dev.studentstay.Documente.service.RoleBasedLinksService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,5 +29,14 @@ public class RoleBasedLinksController {
         String token = request.getHeader("Authorization").substring(7);
         String role = grpcClientService.validateTokenAndGetRole(token);
         return roleBasedLinksService.getLinksForRole(role);
+    }
+
+    @GetMapping("/get-role")
+    public Map<String, String> getRole(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring(7);
+        String role = grpcClientService.validateTokenAndGetRole(token);
+        HashMap<String, String> response = new HashMap<String, String>();
+        response.put("role", role);
+        return response;
     }
 }

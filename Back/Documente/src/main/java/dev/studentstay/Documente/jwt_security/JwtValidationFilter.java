@@ -23,7 +23,7 @@ public class JwtValidationFilter implements Filter {
             put("DELETE", "ADMIN");                     // delete a cerere
             put("PUT", "ADMIN; PROFESSOR");                      // update a cerere
         }});
-        put("/student-stay/cereri/user/{id}", new HashMap<>() {{
+        put("/student-stay/cerere/user/{id}", new HashMap<>() {{
             put("GET", "ADMIN; PROFESSOR; STUDENT");    // get cerere by user id
         }});
 
@@ -52,6 +52,9 @@ public class JwtValidationFilter implements Filter {
         put("/documente/process-text", new HashMap<>() {{
             put("POST", "PROFESSOR");       // process text from document
         }});
+        put("/documente/update-text/{id}", new HashMap<>() {{
+            put("PATCH", "PROFESSOR");       // process text from document
+        }});
 
 
         // repartizari
@@ -75,6 +78,10 @@ public class JwtValidationFilter implements Filter {
 
         put("/links", new HashMap<>() {{
             put("GET", "ADMIN; STUDENT; PROFESSOR");    // allow to get links uri
+        }});
+
+        put("/get-role", new HashMap<>() {{
+            put("GET", "ADMIN; STUDENT; PROFESSOR");    // get user role
         }});
     }};
 

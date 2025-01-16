@@ -49,25 +49,25 @@ public class CereriController {
 
     @GetMapping("/api/student-stay/cerere/user/{id}")
     public Optional<CereriEntity> getCerereByUserId(@PathVariable Long id,
-                                                    @RequestHeader(value = "Authorization") String authorization,
-                                                    @RequestHeader(value = "User-Role") String userRole) {
-        return Optional.ofNullable(cereriService.getCerereByUserId(id, authorization, userRole));
+                                                    @RequestHeader(value = "Authorization") String authorization) {
+        return Optional.ofNullable(cereriService.getCerereByUserId(id, authorization));
     }
 
     @PostMapping("/api/student-stay/cereri")
     public CereriEntity addCerere(@RequestBody CereriEntity cerere,
-                                  @RequestHeader(value = "Authorization") String authorization,
-                                  @RequestHeader(value = "User-Role") String userRole) {
-        return cereriService.addCerere(cerere, authorization, userRole);
+                                  @RequestHeader(value = "Authorization") String authorization) {
+        return cereriService.addCerere(cerere, authorization);
     }
 
     @PutMapping("/api/student-stay/cereri/{id}")
-    public ResponseEntity<CereriEntity> updateCerere(@PathVariable Long id, @RequestParam CereriEntity.TipCerere tipCerere) {
+    public ResponseEntity<CereriEntity> updateCerere(@PathVariable Long id, @RequestParam CereriEntity.TipCerere tipCerere,
+                                                     @RequestHeader(value = "Authorization") String authorization) {
         Optional<CereriEntity> cerere = cereriService.getCerereById(id);
         if (cerere.isPresent()) {
             cerere.get().setTipCerere(tipCerere);
             return cereriService.updateCerere(id, cerere.get());
         } else
+//            return ResponseEntity.ok(addCerere(new CereriEntity(null, id, tipCerere), authorization);
             return ResponseEntity.notFound().build();
     }
 

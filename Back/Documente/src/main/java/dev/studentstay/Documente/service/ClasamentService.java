@@ -25,9 +25,9 @@ public class ClasamentService {
         this.studentServiceClient = studentServiceClient;
     }
 
-    public void populate(String authToken, String userRole) {
+    public void populate(String authToken) {
 // Retrieve all students from the Student service
-        List<StudentDto> allStudents = studentServiceClient.getAllStudents(authToken, userRole);
+        List<StudentDto> allStudents = studentServiceClient.getAllStudents(authToken, "userRole");
 
         // Clear existing Clasament data to avoid duplicates
         clasamentRepository.deleteAll();
@@ -58,7 +58,7 @@ public class ClasamentService {
         clasamentRepository.saveAll(clasamentList);
     }
 
-    public Clasament modifyOne(Long id, Double punctaj, String authToken, String userRole) {
+    public Clasament modifyOne(Long id, Double punctaj, String authToken) {
         Clasament oneEntry = clasamentRepository.findById(id).orElseThrow(() -> new ClasamentEntryNotFoundExeception("Intrarea cu id '" + id + "' nu a fost gasita in clasament"));
 
         oneEntry.setPunctaj(punctaj);
@@ -66,7 +66,7 @@ public class ClasamentService {
         clasamentRepository.save(oneEntry);
 
         // TODO: recalculates clasament
-        List<StudentDto> allStudents = studentServiceClient.getAllStudents(authToken, userRole);
+        List<StudentDto> allStudents = studentServiceClient.getAllStudents(authToken, "userRole");
         List<Clasament> clasamentList = clasamentRepository.findAll();
 
         Map<String, String> emailToNumeMap = allStudents.stream()

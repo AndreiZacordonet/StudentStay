@@ -46,20 +46,22 @@ public class CereriService {
         return cerereRepository.findById(id);
     }
 
-    public CereriEntity getCerereByUserId(Long userId, String token, String userRole) {
-        if (!studentServiceClient.checkIfStudentExists(userId, token, userRole)) {
+    public CereriEntity getCerereByUserId(Long userId, String token) {
+        if (!studentServiceClient.checkIfStudentExists(userId, token, "userRole")) {
             throw new HttpClientErrorException(HttpStatusCode.valueOf(404), "Student ID does not exist");
         }
         return cerereRepository.findByUserId(userId);
     }
 
-    public CereriEntity addCerere(CereriEntity cerere, String token, String userRole) {
+    public CereriEntity addCerere(CereriEntity cerere, String token) {
         CereriEntity existingCerere = cerereRepository.findByUserId(cerere.getUserId());
         if (existingCerere!=null) {
-            throw new IllegalArgumentException("Exista deja o cerere pentru acest utilizator.");
+            existingCerere.setTipCerere(cerere.getTipCerere());
+
+            return cerereRepository.save(existingCerere);
         }
 
-        if (!studentServiceClient.checkIfStudentExists(cerere.getUserId(), token, userRole)) {
+        if (!studentServiceClient.checkIfStudentExists(cerere.getUserId(), token, "userRole")) {
             throw new HttpClientErrorException(HttpStatusCode.valueOf(404), "Student ID does not exist");
         }
         return cerereRepository.save(cerere);

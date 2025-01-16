@@ -57,13 +57,13 @@ public class DocumenteService {
         this.studentServiceClient = studentServiceClient;
     }
 
-    public Page<Documente> getDocumente(Pageable pageable, String authorization, String userRole,
+    public Page<Documente> getDocumente(Pageable pageable, String authorization,
                                         String cnpStudent, Acte act) {
 
         System.out.println("\n\ncnp: " + cnpStudent + "\n\n");
 
         return documenteRepository.findAll(Specification.where(
-                studentIdEquals(cnpStudent != null ? studentServiceClient.getStudentIdByCnp(cnpStudent, authorization, userRole)
+                studentIdEquals(cnpStudent != null ? studentServiceClient.getStudentIdByCnp(cnpStudent, authorization, "userRole")
                         : null)
                         .and(acteEquals(act))
         ), pageable);

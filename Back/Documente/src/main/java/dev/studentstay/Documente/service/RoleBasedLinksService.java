@@ -9,44 +9,47 @@ public class RoleBasedLinksService {
 
     private final Map<String, Map<String, String>> roleAccessMap = new HashMap<>() {{
         // cereri
-        put("/student-stay/cereri", new HashMap<>() {{
-            put("GET", "ADMIN; PROFESSOR");    // get all cereri
-            put("POST", "STUDENT; PROFESSOR");  // create a new cerere
-        }});
-        put("/student-stay/cereri/{id}", new HashMap<>() {{
-            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get cerere by id
-            put("DELETE", "ADMIN");                     // delete a cerere
-            put("PUT", "ADMIN; PROFESSOR");                      // update a cerere
-        }});
-        put("/student-stay/cereri/user/{id}", new HashMap<>() {{
-            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get cerere by user id
-        }});
+//        put("/student-stay/cereri", new HashMap<>() {{
+//            put("GET", "ADMIN; PROFESSOR");    // get all cereri
+//            put("POST", "STUDENT; PROFESSOR");  // create a new cerere
+//        }});
+//        put("/student-stay/cereri/{id}", new HashMap<>() {{
+//            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get cerere by id
+//            put("DELETE", "ADMIN");                     // delete a cerere
+//            put("PUT", "ADMIN; PROFESSOR");                      // update a cerere
+//        }});
+//        put("/student-stay/cereri/user/{id}", new HashMap<>() {{
+//            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get cerere by user id
+//        }});
 
 
-        // clasament
-        put("/clasament", new HashMap<>() {{
-            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get all clasament
-            put("POST", "PROFESSOR");    // populate clasament
-        }});
-        put("/clasament/{id}", new HashMap<>() {{
-            put("POST", "PROFESSOR");    // modify one clasament entry
-        }});
+//        // clasament
+//        put("/clasament", new HashMap<>() {{
+//            put("GET", "ADMIN; PROFESSOR; STUDENT");    // get all clasament
+//            put("POST", "PROFESSOR");    // populate clasament
+//        }});
+//        put("/clasament/{id}", new HashMap<>() {{
+//            put("POST", "PROFESSOR");    // modify one clasament entry
+//        }});
 
 
-        // documente
-        put("/documente", new HashMap<>() {{
-            put("GET", "PROFESSOR");    // get all documente
-            put("POST", "STUDENT; PROFESSOR");   // add document
-        }});
-        put("/documente/{id}", new HashMap<>() {{
-            put("GET", "STUDENT; PROFESSOR");   // get one document
-        }});
-        put("/documente/extract-text", new HashMap<>() {{
-            put("POST", "PROFESSOR");       // extract text from document
-        }});
-        put("/documente/process-text", new HashMap<>() {{
-            put("POST", "PROFESSOR");       // process text from document
-        }});
+//        // documente
+//        put("/documente", new HashMap<>() {{
+//            put("GET", "PROFESSOR");    // get all documente
+//            put("POST", "STUDENT; PROFESSOR");   // add document
+//        }});
+//        put("/documente/{id}", new HashMap<>() {{
+//            put("GET", "STUDENT; PROFESSOR");   // get one document
+//        }});
+//        put("/documente/extract-text", new HashMap<>() {{
+//            put("POST", "PROFESSOR");       // extract text from document
+//        }});
+//        put("/documente/process-text", new HashMap<>() {{
+//            put("POST", "PROFESSOR");       // process text from document
+//        }});
+//        put("/documente/update-text/{id}", new HashMap<>() {{
+//            put("PATCH", "PROFESSOR");       // process text from document
+//        }});
 
 
         // repartizari
@@ -68,9 +71,9 @@ public class RoleBasedLinksService {
             put("GET", "STUDENT; PROFESSOR");      // get rezervation
         }});
 
-        put("/links", new HashMap<>() {{
-            put("GET", "ADMIN; STUDENT; PROFESSOR");    // allow to get links uri
-        }});
+//        put("/links", new HashMap<>() {{
+//            put("GET", "ADMIN; STUDENT; PROFESSOR");    // allow to get links uri
+//        }});
     }};
 
     public List<Map<String, Object>> getLinksForRole(String role) {

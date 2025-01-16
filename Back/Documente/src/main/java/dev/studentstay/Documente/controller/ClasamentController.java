@@ -17,10 +17,9 @@ public class ClasamentController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> populateClasament(@RequestHeader(value = "Authorization") String authorization,
-                                               @RequestHeader(value = "User-Role") String userRole) {
+    public ResponseEntity<?> populateClasament(@RequestHeader(value = "Authorization") String authorization) {
 
-        clasamentService.populate(authorization, userRole);
+        clasamentService.populate(authorization);
 
         return ResponseEntity.ok("Totul ok!");
     }
@@ -28,10 +27,9 @@ public class ClasamentController {
     @PostMapping("/{id}")
     public ResponseEntity<?> modifyOne(@PathVariable Long id,
                                        @RequestParam(name = "punctaj") Double punctaj,
-                                       @RequestHeader(value = "Authorization") String authorization,
-                                       @RequestHeader(value = "User-Role") String userRole) {
+                                       @RequestHeader(value = "Authorization") String authorization) {
 
-        return ResponseEntity.ok(clasamentService.modifyOne(id, punctaj, authorization, userRole));
+        return ResponseEntity.ok(clasamentService.modifyOne(id, punctaj, authorization));
     }
 
     @GetMapping()
