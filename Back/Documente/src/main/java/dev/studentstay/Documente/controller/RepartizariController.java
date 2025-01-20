@@ -3,6 +3,7 @@ package dev.studentstay.Documente.controller;
 import dev.studentstay.Documente.dto.EditRepartizareRequest;
 import dev.studentstay.Documente.model.CoduriCamine;
 import dev.studentstay.Documente.model.Repartizare;
+import dev.studentstay.Documente.repository.RepartizareRepository;
 import dev.studentstay.Documente.service.RepartizareService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -17,6 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class RepartizariController {
 
     private final RepartizareService repartizareService;
+    private final RepartizareRepository repartizareRepository;
+
+    @GetMapping()
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(repartizareRepository.findAll());
+    }
 
     @PostMapping("/populate")
     public ResponseEntity<String> populateRepartizare() {

@@ -60,6 +60,7 @@ public class JwtValidationFilter implements Filter {
         // repartizari
         put("/repartizari", new HashMap<>() {{
             put("PATCH", "PROFESSOR");      // edit repartition by student's email
+            put("GET", "PROFESSOR");      // edit repartition by student's email
         }});
         put("/repartizari/populate", new HashMap<>() {{
             put("POST", "PROFESSOR");      // populate repartition

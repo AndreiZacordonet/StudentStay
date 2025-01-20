@@ -1,0 +1,9 @@
+com\paw\laborator\repositories\StudentRepository.class
+com\paw\laborator\dtos\StudentDTO.class
+com\paw\laborator\services\StudentService.class
+com\paw\laborator\controllers\StudentController.class
+com\paw\laborator\services\StudentServiceImpl.class
+com\paw\laborator\config\WebConfig.class
+com\paw\laborator\Main.class
+com\paw\laborator\config\WebConfig$1.class
+com\paw\laborator\data\Student.class

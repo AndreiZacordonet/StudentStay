@@ -63,13 +63,13 @@ public class RoleBasedLinksService {
             put("GET", "STUDENT");      // get repartition by student id
         }});
 
-        // rezervari
-        put("/rezervari", new HashMap<>() {{
-            put("POST", "STUDENT; PROFESSOR");      // create rezervation
-        }});
-        put("/rezervari/{email}", new HashMap<>() {{
-            put("GET", "STUDENT; PROFESSOR");      // get rezervation
-        }});
+//        // rezervari
+//        put("/rezervari", new HashMap<>() {{
+//            put("POST", "STUDENT; PROFESSOR");      // create rezervation
+//        }});
+//        put("/rezervari/{email}", new HashMap<>() {{
+//            put("GET", "STUDENT; PROFESSOR");      // get rezervation
+//        }});
 
 //        put("/links", new HashMap<>() {{
 //            put("GET", "ADMIN; STUDENT; PROFESSOR");    // allow to get links uri

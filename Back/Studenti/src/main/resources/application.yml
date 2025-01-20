@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: ${SUPABASE_STUDENTSTAY_DB_URL}
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+server:
+  port: 8081
